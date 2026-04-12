@@ -1,0 +1,2 @@
+This is a new file created using Node.js! 
+This is an updated content for the new file.
