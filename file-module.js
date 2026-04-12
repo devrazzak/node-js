@@ -13,3 +13,11 @@ const file = require("fs");
 // const data = file.readFileSync("newFile.txt");
 
 // console.log(data.toString());
+
+file.readFile("newFile.txt", (err, data) => {
+  console.log(data.toString());
+});
+
+console.log(
+  "This will be printed before the file content due to asynchronous nature of readFile.",
+);
