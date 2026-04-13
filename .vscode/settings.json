@@ -1,0 +1,11 @@
+{
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "editor.tabSize": 4,
+  "editor.detectIndentation": false,
+  "editor.wordWrapColumn": 120,
+  "editor.rulers": [120],
+  "javascript.format.wrapLineLength": 120,
+  "prettier.printWidth": 120,
+  "debug.javascript.autoAttachFilter": "smart"
+}
