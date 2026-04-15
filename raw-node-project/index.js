@@ -10,7 +10,7 @@ const app = {};
 // testing file system
 // TODO: Remove later
 data.delete("test", "newFile", (err) => {
-  console.log(err, "file deleting fail");
+  //   console.log(err, "file deleting fail");
 });
 
 // create server
