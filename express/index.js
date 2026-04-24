@@ -1,32 +1,35 @@
+// Dependencies
+const e = require("express");
 const express = require("express");
+const mongoose = require("mongoose");
+const todoHandler = require("./todoHandler/todoHandler");
 
+// Express Initialization
 const app = express();
-
 app.use(express.json());
 
-const myMiddleware1 = (req, res, next) => {
-  console.log("This is middleware 1");
-  next();
-};
+// Database connection with mongoose
+mongoose
+  .connect("mongodb://localhost/todo-app")
+  .then(() => {
+    console.log("Connection Successful!");
+  })
+  .catch((err) => {
+    console.log("Error", err);
+  });
 
-const myMiddleware2 = (req, res, next) => {
-  console.log("This is middleware 2");
-  next();
-};
+// Application Routes
+app.use("/todo", todoHandler);
 
-app.use(myMiddleware1);
-app.use(myMiddleware2);
+// Default Error Handler
+function errorHandler(err, req, res, next) {
+  if (res.headerSent) {
+    return next(err);
+  }
+  res.status(500).json({ error: err });
+}
 
-app.get("/", (req, res) => {
-  res.send("This is home page!");
-});
-
-app.post("/", (req, res) => {
-  console.log(req.body.name);
-  res.send("This is home page with post request!");
-});
-
+// Server Start
 app.listen(3000, () => {
   console.log("listening on port 3000...");
-  console.log("hello");
 });

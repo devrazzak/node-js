@@ -1,8 +1,15 @@
 {
+  "scripts": {
+    "start": "nodemon index.js",
+    "dev": "node --watch .",
+    "lint": "eslint ."
+  },
   "devDependencies": {
-    "eslint": "^9.39.4"
+    "eslint": "^9.39.4",
+    "nodemon": "^3.0.1"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mongoose": "^9.5.0"
   }
 }
