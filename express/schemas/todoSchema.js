@@ -11,10 +11,10 @@ const todoSchema = mongoose.Schema({
   status: {
     type: String,
     enum: ["active", "inactive"],
-    date: {
-      type: Date,
-      default: Date.now(),
-    },
+  },
+  date: {
+    type: Date,
+    default: Date.now(),
   },
 });
 

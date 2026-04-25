@@ -2,13 +2,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const todoSchema = require("../schemas/todoSchema");
+const checkLogin = require("../middleware/checkLogin");
 const router = express.Router();
 
 // Create model
 const Todo = new mongoose.model("Todo", todoSchema);
 
 // Get all the todos
-router.get("/", async (req, res) => {
+router.get("/", checkLogin, async (req, res) => {
   try {
     const todoList = await Todo.find();
     res.status(200).json({
