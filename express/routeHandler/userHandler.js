@@ -5,12 +5,25 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const userSchema = require("../schemas/userSchema");
+const checkLogin = require("../middleware/checkLogin");
 const router = express.Router();
 
 // Create Model
 const User = new mongoose.model("User", userSchema);
 
 // Get all the user
+router.get("/all", checkLogin, async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json({
+      data: users,
+    });
+  } catch {
+    res.status(500).json({
+      error: "Internal server error!",
+    });
+  }
+});
 
 // Get a user by ID
 
@@ -61,7 +74,6 @@ router.post("/login", async (req, res) => {
             expiresIn: "1h",
           },
         );
-        console.log("token", token);
         res.status(200).json({
           message: "Login Successfully!",
           access_token: token,

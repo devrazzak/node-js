@@ -2,16 +2,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const todoSchema = require("../schemas/todoSchema");
+const userSchema = require("../schemas/userSchema");
 const checkLogin = require("../middleware/checkLogin");
 const router = express.Router();
 
 // Create model
 const Todo = new mongoose.model("Todo", todoSchema);
+const User = new mongoose.model("User", userSchema);
 
 // Get all the todos
 router.get("/", checkLogin, async (req, res) => {
   try {
-    const todoList = await Todo.find();
+    const todoList = await Todo.find().populate("user", "name userName");
     res.status(200).json({
       data: todoList,
     });
@@ -37,13 +39,26 @@ router.get("/:id", async (req, res) => {
 });
 
 // Post a todo
-router.post("/", async (req, res) => {
+router.post("/", checkLogin, async (req, res) => {
   try {
-    const newTodo = new Todo(req.body);
-    await newTodo.save();
-
+    const newTodo = new Todo({
+      ...req.body,
+      user: req.userid,
+    });
+    const todo = await newTodo.save();
+    await User.updateOne(
+      {
+        _id: req.userid,
+      },
+      {
+        $push: {
+          todos: todo._id,
+        },
+      },
+    );
     res.status(200).json({
       message: "Task created successfully!",
+      data: newTodo,
     });
   } catch (error) {
     res.status(500).json({
